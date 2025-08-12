@@ -12,6 +12,7 @@ from google.adk.sessions import InMemorySessionService
 from google.genai import types
 from routing_agent import (
     root_agent as routing_agent,
+    routing_agent_instance,
 )
 
 
@@ -109,6 +110,12 @@ async def main():
             container=False,
             show_fullscreen_button=False,
         )
+        with gr.Row():
+            for card in routing_agent_instance.cards.values():
+                with gr.Column():
+                    gr.Markdown(f'**Agent Name:** {card.name}')
+                    gr.Markdown(f'**Description:** {card.description}')
+
         gr.ChatInterface(
             get_response_from_agent,
             title='A2A Host Agent',

@@ -12,6 +12,7 @@
     pkgs.nodejs_20
     # pkgs.nodePackages.nodemon
     pkgs.python313
+    pkgs.uv
   ];
 
   # Sets environment variables in the workspace

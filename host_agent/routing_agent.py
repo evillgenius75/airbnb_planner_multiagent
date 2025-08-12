@@ -282,17 +282,17 @@ class RoutingAgent:
         return send_response.root.result
 
 
-def _get_initialized_routing_agent_sync() -> Agent:
+def _get_initialized_routing_agent_sync() -> 'RoutingAgent':
     """Synchronously creates and initializes the RoutingAgent."""
 
-    async def _async_main() -> Agent:
+    async def _async_main() -> 'RoutingAgent':
         routing_agent_instance = await RoutingAgent.create(
             remote_agent_addresses=[
                 os.getenv('AIR_AGENT_URL', 'http://localhost:10002'),
                 os.getenv('WEA_AGENT_URL', 'http://localhost:10001'),
             ]
         )
-        return routing_agent_instance.create_agent()
+        return routing_agent_instance
 
     try:
         return asyncio.run(_async_main())
@@ -306,4 +306,5 @@ def _get_initialized_routing_agent_sync() -> Agent:
         raise
 
 
-root_agent = _get_initialized_routing_agent_sync()
+routing_agent_instance = _get_initialized_routing_agent_sync()
+root_agent = routing_agent_instance.create_agent()
